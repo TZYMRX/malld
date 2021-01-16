@@ -1,11 +1,13 @@
 <template>
 	<div class="recommend">
-		<div v-for="item in recommends" class="recommend-item">
-			<a :href="item.link">
-				<van-image :src="item.image"/>
-				<div>{{item.title}}</div>
-			</a>
-		</div>
+		<van-grid v-for="item in recommends">
+			<van-grid-item class="recommend-item">
+				<a :href="item.link">
+					<van-image :src="item.image"/>
+					<div>{{item.title}}</div>
+				</a>
+			</van-grid-item>
+		</van-grid>
 	</div>
 </template>
 
@@ -19,7 +21,7 @@
 					return []
 				}
 			}
-		}
+		},
 	}
 </script>
 
@@ -28,16 +30,16 @@
 		display: flex;
 		text-align: center;
 		font-size: 13px;
-		padding: 12px 0 25px;
 		border-bottom: 11px solid #eeeeee;
 	}
 
 	.recommend-item {
 		flex: 1;
+		background-color: #666666;
 	}
 
 	.recommend-item .van-image {
-		width: 92%;
-		margin-bottom: 8px;
+		/*width: 92%;*/
+		margin-bottom: 5px;
 	}
 </style>
