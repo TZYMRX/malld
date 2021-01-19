@@ -26,7 +26,6 @@
 
 <style scoped>
 	.warehouse {
-		margin-top: 10px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-evenly;

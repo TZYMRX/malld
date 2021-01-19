@@ -3,18 +3,15 @@
 		<img :src="warehouseItem.show.img">
 		<div class="warehouse-info">
 			<p>{{warehouseItem.title}}</p>
-			<span class="price">{{warehouseItem.price}}</span>
+			<span class="price">{{warehouseItem.price}}￥</span>
 			<span class="collect">{{warehouseItem.cfav}}</span>
 		</div>
 	</div>
 </template>
 
 <script>
-	import TabControl from "../tabControl/TabControl";
-
 	export default {
 		name: "WarehouseListItem",
-		components: {TabControl},
 		props: {
 			warehouseItem: {
 				type: Object,
@@ -28,10 +25,12 @@
 
 <style scoped>
 	.warehouseListItem {
+		margin-top: 8px;
 		padding-bottom: 40px;
 		position: relative;
-
 		width: 48%;
+		box-shadow: 1px -2px 7px -7px #000, -1px 2px 7px -7px #000;
+		border-radius: 5px;
 	}
 
 	.warehouseListItem img {
@@ -43,7 +42,7 @@
 		font-size: 12px;
 		position: absolute;
 		bottom: 5px;
-		left: 0;
+		left: 6px;
 		right: 0;
 		overflow: hidden;
 		text-align: center;
@@ -53,12 +52,12 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		margin-bottom: 3px;
+		margin-bottom: 4px;
 	}
 
 	.warehouse-info .price {
 		color: var(--color-high-text);
-		margin-right: 20px;
+		margin-right: 22px;
 	}
 
 	.warehouse-info .collect {

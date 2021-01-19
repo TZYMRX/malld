@@ -1,38 +1,39 @@
 <template>
 	<div id="home">
 		<!--导航栏-->
-		<nav-bar class="home-nav">
-			<div slot="center">Mall</div>
-		</nav-bar>
+		<nav-bar class="home-nav"><div slot="center">Mall</div></nav-bar>
+		<scroll class="content"
+						ref="scroll"
+						:probe-type="3"
+						@scroll="contentScroll"
+						:pull-up-load="true"
+						@pullingUp="loadMore">
+			<!--轮播-->
+			<home-swiper :banners="banners"/>
+			<!--推荐-->
+			<home-recommend-view :recommends="recommends"/>
+			<!--热门-->
+			<homepopular/>
+			<!--列表导航-->
+			<tab-control class="tab-control" @tabClick="tabClick"/><!--<tab-control :titles="['流行','新款','精选']"/>-->
+			<!--商品列表-->
+			<ware-house-list :warehouse="showWarehouse"/>
+		</scroll>
 
-		<!--轮播图-->
-		<home-swiper :banners="banners"/>
-
-		<!-- -->
-		<home-recommend-view :recommends="recommends"/>
-
-		<!--本周热门-->
-		<homepopular/>
-
-		<!--列表导航-->
-		<tab-control class="tab-control" @tabClick="tabClick"/>
-		<!--<tab-control :titles="['流行','新款','精选']"/>-->
-
-		<!--商品列表-->
-		<ware-house-list :warehouse="showWarehouse"/>
-
+		<back-top @click.native="backClick" v-show="isShowBackTop"/>
 	</div>
 </template>
 
 <script>
-	import HomeSwiper from "./childComps/HomeSwiper";
-	// import {Swiper, SwiperItem} from 'components/common/swiper'
+	import HomeSwiper from "./childComps/HomeSwiper";	// import {Swiper, SwiperItem} from 'components/common/swiper'
 	import HomeRecommendView from "./childComps/HomeRecommendView";
 	import Homepopular from "./childComps/Homepopular";
 
 	import NavBar from "components/common/navbar/NavBar";
 	import TabControl from "components/content/tabControl/TabControl";
 	import WareHouseList from "components/content/warehouse/WareHouseList";
+	import Scroll from "components/common/scroll/Scroll";
+	import BackTop from "components/content/backTop/BackTop";
 
 	import {getHomeMultidata, getHomeWarehouse} from "network/home";
 
@@ -45,6 +46,8 @@
 			Homepopular,
 			TabControl,
 			WareHouseList,
+			Scroll,
+			BackTop,
 		},
 		data() {
 			return {
@@ -56,6 +59,7 @@
 					'sell': {page: 0, list: []}
 				},
 				currentType: 'pop',
+				isShowBackTop: false,
 			}
 		},
 		computed: {
@@ -75,20 +79,37 @@
 			/**
 			 * 事件监听
 			 */
+			// 选择列表要显示的类型
 			tabClick(index) {
-				this.currentType = Object.keys(this.warehouse)[index]
-				// switch (index) {
-				// 	case 0:
-				// 		this.currentType = 'pop'
-				// 		break
-				// 	case 1:
-				// 		this.currentType = 'new'
-				// 		break
-				// 	case 2:
-				// 		this.currentType = 'sell'
-				// 		break
-				// }
+				switch (index) {
+					case 0:
+						this.currentType = 'pop';
+						break;
+					case 1:
+						this.currentType = 'new';
+						break;
+					case 2:
+						this.currentType = 'sell';
+						break;
+				}
+				// this.currentType = Object.keys(this.warehouse)[index]
 			},
+
+			// 返回顶部
+			backClick() {
+				this.$refs.scroll.scrollTo(0, 0)
+			},
+
+			// 显示返回顶部按钮
+			contentScroll(position) {
+				this.isShowBackTop = (-position.y) > 1000
+			},
+
+			// 上拉加载更多
+			loadMore() {
+				this.getHomeWarehouse(this.currentType)
+			},
+
 
 			/**
 			 * 网络请求
@@ -100,13 +121,15 @@
 				})
 			},
 			getHomeWarehouse(type) {
-				const page = this.warehouse[type].page + 1
+				let page = this.warehouse[type].page + 1
 				getHomeWarehouse(type, page).then(res => {
 					// for (let n of res.data.list) {
 					// 	this.warehouse[type].list.push(n)
 					// }
 					this.warehouse[type].list.push(...res.data.list)
 					this.warehouse[type].page += 1
+
+					this.$refs.scroll.finishPullUp()
 				})
 			}
 		}
@@ -115,7 +138,7 @@
 
 <style scoped>
 	#home {
-		padding-top: 44px;
+		height: 100vh;
 	}
 
 	.home-nav {
@@ -134,5 +157,11 @@
 		position: sticky;
 		top: 44px;
 		z-index: 9;
+	}
+
+	.content {
+		/*overflow: hidden;*/
+		height: calc(100% - 93px);
+		margin-top: 44px;
 	}
 </style>
