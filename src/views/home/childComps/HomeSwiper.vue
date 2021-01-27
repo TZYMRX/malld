@@ -2,7 +2,7 @@
 	<van-swipe :autoplay="5000" @change="onChange">
 		<van-swipe-item v-for="(item, index) in banners" :key="index">
 			<a :href="item.link">
-				<img :src="item.image" width="100%" style="border-radius: 5px"/>
+				<img :src="item.image" width="100%" @load="imgLoad"/>
 			</a>
 		</van-swipe-item>
 		<template #indicator>
@@ -25,12 +25,18 @@
 		data() {
 			return {
 				current: 0,
+				isLoad: false
 			};
 		},
 		methods: {
 			onChange(index) {
 				this.current = index;
 			},
+			imgLoad() {
+				if (!this.isLoad)
+					this.$emit('swiperImgLoad')
+				this.isLoad = true
+			}
 		},
 	}
 </script>

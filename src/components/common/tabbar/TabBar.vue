@@ -1,7 +1,10 @@
 <template>
-  <div id="tab-bar">
-    <slot></slot>
-  </div>
+	<van-tabbar active-color="#E4899C" inactive-color="#000" route>
+		<van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
+		<van-tabbar-item replace to="/category" icon="orders-o">分类</van-tabbar-item>
+		<van-tabbar-item replace to="/cart" icon="cart-o">购物车</van-tabbar-item>
+		<van-tabbar-item replace to="/profile" icon="user-o">我的</van-tabbar-item>
+	</van-tabbar>
 </template>
 
 <script>
@@ -11,15 +14,5 @@
 </script>
 
 <style scoped>
-  #tab-bar {
-    display: flex;
-    background-color: #F6F6F6;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
 
-    box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1);
-		z-index: 1000;
-  }
 </style>

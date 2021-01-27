@@ -6,23 +6,45 @@ Vue.use(VueRouter)
 const routes = [
 	{
 		path: '',
-		redirect: '/home'
+		redirect: '/home',
+		meta: {
+			showTab: true
+		}
 	},
 	{
 		path: '/home',
-		component: () => import('../views/home/Home')
+		component: () => import('../views/home/Home'),
+		meta: {
+			showTab: true
+		}
 	},
 	{
 		path: '/category',
-		component: () => import('../views/category/Category')
+		component: () => import('../views/category/Category'),
+		meta: {
+			showTab: true
+		}
 	},
 	{
 		path: '/cart',
-		component: () => import('../views/cart/Cart')
+		component: () => import('../views/cart/Cart'),
+		meta: {
+			showTab: true
+		}
 	},
 	{
 		path: '/profile',
-		component: () => import('../views/profile/Profile')
+		component: () => import('../views/profile/Profile'),
+		meta: {
+			showTab: true
+		}
+	},
+	{
+		path: '/detail/:iid',
+		component: () => import('../views/detail/Detail'),
+		meta: {
+			showTab: false
+		}
 	}
 ]
 

@@ -28,8 +28,10 @@
 		display: flex;
 		text-align: center;
 		font-size: 13px;
-		border-bottom: 13px solid #eeeeee;
+		border-bottom: 12px solid #eeeeee;
 		padding: 7px;
+		padding-bottom: 17px;
+		margin-bottom: 19px;
 	}
 
 	.recommend-item {

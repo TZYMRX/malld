@@ -1,17 +1,22 @@
 <template>
 	<div id="app">
-		<MainTabBar/>
-		<router-view/>
+		<keep-alive exclude="Detail">
+			<router-view/>
+		</keep-alive>
+
+		<TabBar v-if="this.$route.meta.showTab"/>
 	</div>
 </template>
 
 <script>
-	import MainTabBar from "components/content/mainTabbar/MainTabBar";
+	import TabBar from "./components/common/tabbar/TabBar";
+	// import MainTabBar from "components/content/mainTabbar/MainTabBar";
 
 	export default {
 		name: 'App',
 		components: {
-			MainTabBar,
+			// MainTabBar,
+			TabBar
 		}
 	}
 </script>

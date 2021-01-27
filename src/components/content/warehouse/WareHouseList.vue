@@ -2,8 +2,7 @@
 	<div class="warehouse">
 		<ware-house-list-item
 			v-for="item in warehouse"
-			:warehouse-item="item"
-		/>
+			:warehouse-item="item"/>
 	</div>
 </template>
 

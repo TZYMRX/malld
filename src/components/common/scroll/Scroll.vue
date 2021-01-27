@@ -32,25 +32,37 @@
 				probeType: this.probeType,
 				pullUpLoad: this.pullUpLoad,
 				click: true,
+				observeDOM: true
 			})
 
 			// 监听滚动位置
-			this.scroll.on('scroll', position => {
-				this.$emit('scroll', position)
-			})
+			if (this.probeType === 2 || this.probeType === 3) {
+				this.scroll.on('scroll', position => {
+					this.$emit('scroll', position)
+				})
+			}
 
 			// 监听上拉
-			this.scroll.on('pullingUp', () => {
-				this.$emit('pullingUp')
-			})
+			if (this.pullUpLoad) {
+				this.scroll.on('pullingUp', () => {
+					this.$emit('pullingUp')
+				})
+			}
 		},
 		methods: {
 			scrollTo(x, y, time = 800) {
-				this.scroll.scrollTo(x, y, time)
+				this.scroll && this.scroll.scrollTo(x, y, time) // 先判断this.scroll有没有值
+			},
+			refresh() {
+				this.scroll && this.scroll.refresh()
 			},
 			finishPullUp() {
 				this.scroll.finishPullUp()
-			}
+			},
+
+			// getScrollY() {
+			// 	return this.scroll ? this.scroll.y : 0
+			// }
 		}
 	}
 </script>

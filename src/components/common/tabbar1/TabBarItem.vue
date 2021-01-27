@@ -51,15 +51,15 @@
   .tab-bar-item {
     flex: 1;
     text-align: center;
-    height: 49px;
-    font-size: 14px;
+    height: 48px;
+    font-size: 12px;
   }
 
   .tab-bar-item img {
     height: 24px;
     width: 24px;
-    margin-top: 3px;
+    margin-top: 4px;
     vertical-align: middle;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
   }
 </style>

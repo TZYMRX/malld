@@ -1,6 +1,6 @@
 <template>
-	<div class="warehouseListItem">
-		<img :src="warehouseItem.show.img">
+	<div class="warehouseListItem" @click="itemCilck">
+		<img :src="showImage" @load="imgLoad">
 		<div class="warehouse-info">
 			<p>{{warehouseItem.title}}</p>
 			<span class="price">{{warehouseItem.price}}￥</span>
@@ -19,6 +19,19 @@
 					return {}
 				}
 			}
+		},
+		computed:{
+			showImage() {
+				return this.warehouseItem.image || this.warehouseItem.show.img
+			}
+		},
+		methods: {
+			imgLoad() {
+				this.$bus.$emit('itemImgLoad')
+			},
+			itemCilck() {
+				this.$router.push('/detail/' + this.warehouseItem.iid)
+			}
 		}
 	}
 </script>
@@ -29,7 +42,7 @@
 		padding-bottom: 40px;
 		position: relative;
 		width: 48%;
-		box-shadow: 1px -2px 7px -7px #000, -1px 2px 7px -7px #000;
+		box-shadow: -1px 1px 5px -8px #000, -1px 1px 8px -8px #000;
 		border-radius: 5px;
 	}
 
