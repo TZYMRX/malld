@@ -57,7 +57,7 @@
 	import BackTop from "components/content/backTop/BackTop";
 
 	import {getHomeMultidata, getHomeWarehouse} from "network/home";
-	import {debounce} from "../../common/utils";
+	import {itemListenerMixin} from "../../common/mixin";
 
 	export default {
 		name: "Home",
@@ -85,9 +85,9 @@
 				tabOffsetTop: 0,
 				isTabFixed: false,
 				saveY: 0,
-				ItemImgListener: null
 			}
 		},
+		mixins: [itemListenerMixin],
 		computed: {
 			showWarehouse() {
 				return this.warehouse[this.currentType].list
@@ -115,14 +115,6 @@
 			this.getHomeWarehouse('sell')
 		},
 		mounted() {
-			// 监听item中图片加载完成
-			const refresh = debounce(this.$refs.scroll.refresh, 200)
-
-			// 保持监听事件
-			this.ItemImgListener = () => {
-				refresh()
-			}
-			this.$bus.$on('itemImgLoad', this.ItemImgListener)
 		},
 		methods: {
 			/**

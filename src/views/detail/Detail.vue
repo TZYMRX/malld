@@ -26,7 +26,7 @@
 	import WareHouseList from "components/content/warehouse/WareHouseList";
 
 	import {getDetail, Goods, Shop, GoodsParam, getRecommend} from "network/detail";
-	import {debounce} from "../../common/utils";
+	import {itemListenerMixin} from '../../common/mixin'
 
 	export default {
 		name: "Detail",
@@ -41,6 +41,7 @@
 			DetailCommentInfo,
 			WareHouseList
 		},
+		mixins:[itemListenerMixin],
 		data() {
 			return {
 				iid: null,
@@ -51,8 +52,6 @@
 				paramInfo: {},  // 商品参数
 				commentInfo: {},// 评论信息
 				recommend: [],	// 推荐信息
-
-				itemImgListener: null
 			}
 		},
 		created() {
@@ -89,11 +88,6 @@
 			})
 		},
 		mounted() {
-			const refresh = debounce(this.$refs.scroll.refresh, 200)
-			this.itemImgListener = () => {
-				refresh()
-			}
-			this.$bus.$on('itemImgLoad', this.itemImgListener)
 		},
 		destroyed() {
 			this.$bus.$off('itemImgLoad', this.itemImgListener)
