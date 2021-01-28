@@ -121,7 +121,6 @@
 			 * 事件监听
 			 */
 
-			// 选择列表要显示的类型 ['pop','new','sell']
 			tabClick(index) {
 				// this.currentType = Object.keys(this.warehouse)[index]
 				switch (index) {
@@ -195,23 +194,12 @@
 
 	.home-nav {
 		background-color: #E4728A;
-		color: #ffffff;
-
-		/*position: fixed;*/
-		/*left: 0;*/
-		/*right: 0;*/
-		/*bottom: 0;*/
-		/*top: 0;*/
+		color: #fff;
 		z-index: 10;
-	}
-
-	.tab-control {
-
 	}
 
 	.content {
 		overflow: hidden;
 		height: calc(100% - 93px);
-		/*margin-top: 44px;*/
 	}
 </style>

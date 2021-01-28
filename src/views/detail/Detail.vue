@@ -1,14 +1,14 @@
 <template>
 	<div id="detail">
-		<detail-nav-bar class="detail-nav"/>
+		<detail-nav-bar class="detail-nav" @titleClick="titleClick"/>
 		<scroll class="content" ref="scroll">
-			<detail-swiper :top-images="topImages"/>
+			<detail-swiper ref="swiper" :top-images="topImages"/>
 			<detail-base-info :goods="goods"/>
 			<detail-shop-info :shop="shop"/>
-			<detail-comment-info :comment-info="commentInfo"/>
-			<detail-goods-info :detail-info="detailInfo"/><!--@imageLoad="imageLoad"-->
-			<detail-param-info :param-info="paramInfo"/>
-			<ware-house-list :warehouse="recommend"/>
+			<detail-comment-info ref="comment" :comment-info="commentInfo"/>
+			<detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad"/>
+			<detail-param-info ref="params" :param-info="paramInfo"/>
+			<ware-house-list ref="recommed" :warehouse="recommend"/>
 		</scroll>
 	</div>
 </template>
@@ -27,6 +27,7 @@
 
 	import {getDetail, Goods, Shop, GoodsParam, getRecommend} from "network/detail";
 	import {itemListenerMixin} from '../../common/mixin'
+	import {debounce} from "../../common/utils";
 
 	export default {
 		name: "Detail",
@@ -41,7 +42,7 @@
 			DetailCommentInfo,
 			WareHouseList
 		},
-		mixins:[itemListenerMixin],
+		mixins: [itemListenerMixin],
 		data() {
 			return {
 				iid: null,
@@ -52,6 +53,9 @@
 				paramInfo: {},  // 商品参数
 				commentInfo: {},// 评论信息
 				recommend: [],	// 推荐信息
+
+				themeTopYs: [],
+				// themeTopYs: null,
 			}
 		},
 		created() {
@@ -80,22 +84,52 @@
 				if (data.rate.cRate !== 0) {
 					this.commentInfo = data.rate.list[0]
 				}
+
+				// this.$nextTick(() => {
+				// 	this.themeTopYs = []
+				// 	this.themeTopYs.push(0)
+				// 	this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+				// 	this.themeTopYs.push(this.$refs.params.$el.offsetTop)
+				// 	this.themeTopYs.push(this.$refs.recommed.$el.offsetTop)
+				// })
 			})
 
 			// 请求推荐数据
 			getRecommend().then(res => {
 				this.recommend = res.data.list
 			})
+
+			// this.themeTopYs = debounce(() => {
+			// 	this.themeTopYs = []
+			// 	this.themeTopYs.push(this.$refs.swiper.$el.offsetTop)
+			// 	this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+			// 	this.themeTopYs.push(this.$refs.params.$el.offsetTop)
+			// 	this.themeTopYs.push(this.$refs.recommed.$el.offsetTop)
+			// })
 		},
 		mounted() {
+		},
+		updated() {
 		},
 		destroyed() {
 			this.$bus.$off('itemImgLoad', this.itemImgListener)
 		},
 		methods: {
-			// imageLoad() {
-			// 	this.$refs.scroll.refresh()
-			// }
+			imageLoad() {
+				// this.$refs.scroll.refresh()
+
+				// this.refresh()
+				// this.themeTopYs()
+				this.themeTopYs = []
+				this.themeTopYs.push(this.$refs.swiper.$el.offsetTop)
+				this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+				this.themeTopYs.push(this.$refs.params.$el.offsetTop)
+				this.themeTopYs.push(this.$refs.recommed.$el.offsetTop)
+			},
+
+			titleClick(index) {
+				this.$refs.scroll.scrollTo(0, (-this.themeTopYs[index] + 47), 200)
+			}
 		}
 	}
 </script>

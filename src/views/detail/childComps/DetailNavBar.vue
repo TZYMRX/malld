@@ -28,9 +28,10 @@
 		methods: {
 			titleClick(index) {
 				this.currentIndex = index
+				this.$emit('titleClick', index)
 			},
 			backClick() {
-				this.$router.back()
+				this.$router.go(-1)
 			}
 		}
 	}
