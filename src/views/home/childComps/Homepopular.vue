@@ -2,7 +2,6 @@
 	<div class="popular">
 		<a href="https://act.mogujie.com/zzlx67">
 			<h3>本周热门</h3>
-			<!--			<van-overlay :show="true">-->
 			<van-grid square :border="false" :column-num="3">
 				<van-grid-item v-for="item in datas">
 					<van-image :src="item.img"/>

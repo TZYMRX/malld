@@ -75,6 +75,7 @@
 		},
 		methods: {
 			itemClick(index) {
+				if (this.currentIndex === index) return;
 				this.currentIndex = index;
 				this.$emit('tabClick', index)
 			}

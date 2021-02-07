@@ -1,6 +1,6 @@
 <template>
 	<div class="warehouseListItem" @click="itemCilck">
-		<img :src="showImage" @load="imgLoad">
+		<img v-lazy="showImage" @load="imgLoad">
 		<div class="warehouse-info">
 			<p>{{warehouseItem.title}}</p>
 			<span class="price">{{warehouseItem.price}}￥</span>
@@ -20,9 +20,9 @@
 				}
 			}
 		},
-		computed:{
+		computed: {
 			showImage() {
-				return this.warehouseItem.image || this.warehouseItem.show.img
+				return this.warehouseItem.img || this.warehouseItem.image || this.warehouseItem.show.img
 			}
 		},
 		methods: {
@@ -30,7 +30,7 @@
 				this.$bus.$emit('itemImgLoad')
 			},
 			itemCilck() {
-				this.$router.push('/detail/' + this.warehouseItem.iid)
+				this.$router.push(`/detail/${this.warehouseItem.iid}`)
 			}
 		}
 	}
